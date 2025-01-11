@@ -3,7 +3,7 @@
 ##############################################################################
 
 module "roks_landing_zone" {
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-landing-zone.git//patterns/roks-quickstart?ref=v6.6.1"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-landing-zone.git//patterns/roks-quickstart?ref=v6.6.3"
   ibmcloud_api_key = var.ibmcloud_api_key
   prefix           = var.prefix
   region           = var.region
