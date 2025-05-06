@@ -7,11 +7,11 @@ terraform {
     }
     external = {
       source  = "hashicorp/external"
-      version = ">= 2.3.4"
+      version = ">= 2.3.5"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.8.0, <3.0.0"
+      version = ">= 2.17.0, < 3.0.0"
     }
     shell = {
       source  = "scottwinkler/shell"
