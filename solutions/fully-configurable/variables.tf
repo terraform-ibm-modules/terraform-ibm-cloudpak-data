@@ -26,14 +26,8 @@ variable "resource_group" {
   default     = null
 }
 
-variable "resource_group_exists" {
-  description = "Resource group exists or not within the account."
-  type        = bool
-  default     = false
-}
-
 variable "code_engine_project_name" {
-  description = "If the variable cloud_pak_deployer_image is null, it will build the image with code engine and store it within a private ICR registry. Provide a name if you want to set the name. If not defined, default will be `{prefix}-cpd-{random-suffix}`."
+  description = "If `cloud_pak_deployer_image` is `null`, it will build the image with code engine and store it within a private ICR registry. Provide a name if you want to set the name. If not defined, default will be `{prefix}-cpd-{random-suffix}`."
   type        = string
   default     = null
 }
@@ -53,7 +47,7 @@ variable "cloud_pak_deployer_image" {
 variable "cloud_pak_deployer_release" {
   description = "Release of Cloud Pak Deployer version to use. View releases at: https://github.com/IBM/cloud-pak-deployer/releases."
   type        = string
-  default     = "v3.1.3"
+  default     = "v3.1.8"
 }
 
 variable "cloud_pak_deployer_secret" {

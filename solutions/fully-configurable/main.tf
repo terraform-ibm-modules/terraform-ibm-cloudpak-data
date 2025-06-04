@@ -25,7 +25,6 @@ module "build_cpd_image" {
   code_engine_project_name   = var.code_engine_project_name
   code_engine_project_id     = var.code_engine_project_id
   resource_group             = var.resource_group
-  resource_group_exists      = var.resource_group_exists
   cloud_pak_deployer_release = var.cloud_pak_deployer_release
 }
 

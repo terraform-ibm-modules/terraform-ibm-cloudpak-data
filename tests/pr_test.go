@@ -21,7 +21,7 @@ import (
 )
 
 // Ensure every example directory has a corresponding test
-const instanceFlavorDir = "solutions/deploy"
+const instanceFlavorDir = "solutions/fully-configurable"
 
 var permanentResources map[string]interface{}
 

@@ -56,13 +56,13 @@ unless real values don't help users know what to change.
 
 ```hcl
 module "cloudpak_data" {
-  source                      = "../../solutions/deploy"
-  ibmcloud_api_key            = var.ibmcloud_api_key        #pragma: allowlist secret
-  prefix                      = var.prefix
-  region                      = var.region
-  cluster_name                = <OpenShift cluster name>
-  cpd_admin_password          = <A password you would like to set for CP4D UI>
-  cpd_entitlement_key         =  <Cloud Pak for Data entitlement key for access to the IBM Entitled Registry>
+  source                      = "../../solutions/fully-configurable"
+  ibmcloud_api_key            = "xXXxxxxXXXxxxx"  # pragma: allowlist secret
+  prefix                      = "cp4d"
+  region                      = "us-south"
+  cluster_name                = "cluster1"
+  cpd_admin_password          = "xXXxxxxXXXxxxx"  # pragma: allowlist secret
+  cpd_entitlement_key         = "xXXxxxxXXXxxxx"  # pragma: allowlist secret
 }
 ```
 
@@ -132,12 +132,12 @@ You need the following permissions to run this module:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloud_pak_deployer_image"></a> [cloud\_pak\_deployer\_image](#input\_cloud\_pak\_deployer\_image) | Cloud Pak Deployer image to use. If `null`, the image will be built using Code Engine. | `string` | `null` | no |
-| <a name="input_cloud_pak_deployer_release"></a> [cloud\_pak\_deployer\_release](#input\_cloud\_pak\_deployer\_release) | Release of Cloud Pak Deployer version to use. View releases at: https://github.com/IBM/cloud-pak-deployer/releases. | `string` | `"v3.1.3"` | no |
+| <a name="input_cloud_pak_deployer_release"></a> [cloud\_pak\_deployer\_release](#input\_cloud\_pak\_deployer\_release) | Release of Cloud Pak Deployer version to use. View releases at: https://github.com/IBM/cloud-pak-deployer/releases. | `string` | `"v3.1.8"` | no |
 | <a name="input_cloud_pak_deployer_secret"></a> [cloud\_pak\_deployer\_secret](#input\_cloud\_pak\_deployer\_secret) | Secret for accessing the Cloud Pak Deployer image. If `null`, a default secret will be created # pragma: allowlist secret. | <pre>object({<br/>    username = string<br/>    password = string<br/>    server   = string<br/>    email    = string<br/>  })</pre> | `null` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of Red Hat OpenShift cluster to install watsonx onto | `string` | n/a | yes |
 | <a name="input_cluster_rg_id"></a> [cluster\_rg\_id](#input\_cluster\_rg\_id) | Resource group id of the cluster | `string` | n/a | yes |
 | <a name="input_code_engine_project_id"></a> [code\_engine\_project\_id](#input\_code\_engine\_project\_id) | If you want to use an existing project, you can pass the code engine project ID and the Cloud Pak Deployer build will be built within the existing project instead of creating a new one. | `string` | `null` | no |
-| <a name="input_code_engine_project_name"></a> [code\_engine\_project\_name](#input\_code\_engine\_project\_name) | If the variable cloud\_pak\_deployer\_image is null, it will build the image with code engine and store it within a private ICR registry. Provide a name if you want to set the name. If not defined, default will be `{prefix}-cpd-{random-suffix}`. | `string` | `null` | no |
+| <a name="input_code_engine_project_name"></a> [code\_engine\_project\_name](#input\_code\_engine\_project\_name) | If `cloud_pak_deployer_image` is `null`, it will build the image with code engine and store it within a private ICR registry. Provide a name if you want to set the name. If not defined, default will be `{prefix}-cpd-{random-suffix}`. | `string` | `null` | no |
 | <a name="input_cpd_accept_license"></a> [cpd\_accept\_license](#input\_cpd\_accept\_license) | When set to 'true', it is understood that the user has read the terms of the Cloud Pak license(s) and agrees to the terms outlined. | `bool` | `true` | no |
 | <a name="input_cpd_admin_password"></a> [cpd\_admin\_password](#input\_cpd\_admin\_password) | Password for the Cloud Pak for Data admin user. | `string` | n/a | yes |
 | <a name="input_cpd_entitlement_key"></a> [cpd\_entitlement\_key](#input\_cpd\_entitlement\_key) | Cloud Pak for Data entitlement key for access to the IBM Entitled Registry. Can be fetched from https://myibm.ibm.com/products-services/containerlibrary. | `string` | n/a | yes |
@@ -149,7 +149,6 @@ You need the following permissions to run this module:
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | A unique identifier for resources that is prepended to resources that are provisioned. Must begin with a lowercase letter and end with a lowercase letter or number. Must be 16 or fewer characters. | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | Region where resources will be created. To find your VPC region, use `ibmcloud is regions` command to find available regions. | `string` | n/a | yes |
 | <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | Resource group to provision services within. If not defined, a resource group called `{prefix}-cpd` will be created. | `string` | `null` | no |
-| <a name="input_resource_group_exists"></a> [resource\_group\_exists](#input\_resource\_group\_exists) | Resource group exists or not within the account. | `bool` | `false` | no |
 | <a name="input_watson_assistant_install"></a> [watson\_assistant\_install](#input\_watson\_assistant\_install) | If watsonx.ai is being installed, also install watson assistant | `bool` | `false` | no |
 | <a name="input_watson_discovery_install"></a> [watson\_discovery\_install](#input\_watson\_discovery\_install) | If watsonx.ai is being installed, also install watson discovery | `bool` | `false` | no |
 | <a name="input_watsonx_ai_install"></a> [watsonx\_ai\_install](#input\_watsonx\_ai\_install) | Determine whether the watsonx.ai cartridge for the deployer will be installed | `bool` | `false` | no |
