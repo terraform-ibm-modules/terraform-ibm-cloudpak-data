@@ -1,39 +1,20 @@
-##############################################################################
-# Outputs
-##############################################################################
-
-output "region" {
-  value       = var.region
-  description = "Region where SLZ ROKS Cluster is deployed."
+output "cloud_pak_deployer_image" {
+  description = "The Cloud Pak Deployer image used."
+  value       = module.cloudpak_data.cloud_pak_deployer_image
 }
 
-output "cluster_id" {
-  value       = module.ocp_base.cluster_id
-  description = "ID of the cluster."
-}
-
-output "cluster_crn" {
-  value       = module.ocp_base.cluster_crn
-  description = "CRN of the cluster."
-}
-
-output "cluster_resource_group_id" {
-  value       = module.ocp_base.resource_group_id
-  description = "Resource group ID of the cluster."
+output "cloud_pak_deployer_secret" {
+  description = "The secret used for accessing the Cloud Pak Deployer image."
+  value       = module.cloudpak_data.cloud_pak_deployer_secret
+  sensitive   = true
 }
 
 output "cluster_name" {
-  value       = module.ocp_base.cluster_name
-  description = "Name of the cluster."
+  description = "The name of the OpenShift cluster."
+  value       = module.cloudpak_data.cluster_name
 }
 
-output "instance_id" {
-  value       = module.cloud_monitoring.crn
-  description = "The cloud monitoring instance crn."
-}
-
-output "access_key" {
-  value       = module.cloud_monitoring.access_key
-  description = "The access key of the provisioned IBM Cloud Monitoring instance."
-  sensitive   = true
+output "code_engine_project_name" {
+  description = "The name of the code engine project that was created"
+  value       = module.cloudpak_data.code_engine_project_name
 }
