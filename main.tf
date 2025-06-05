@@ -12,7 +12,7 @@ module "build_cpd_image" {
   count                      = var.cloud_pak_deployer_image == null ? 1 : 0
   source                     = "./deploy/cpd-image-build"
   prefix                     = var.prefix
-  ibmcloud_api_key = var.ibmcloud_api_key
+  ibmcloud_api_key           = var.ibmcloud_api_key
   region                     = var.region
   code_engine_project_name   = var.code_engine_project_name
   code_engine_project_id     = var.code_engine_project_id

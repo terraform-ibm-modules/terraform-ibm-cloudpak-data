@@ -80,12 +80,14 @@ module "ocp_base" {
 ##############################################################################
 
 module "cloudpak_data" {
-  source              = "../../solutions/fully-configurable"
-  ibmcloud_api_key    = var.ibmcloud_api_key
-  prefix              = var.prefix
-  region              = var.region
-  cluster_name        = module.ocp_base.cluster_name
-  cluster_rg_id       = module.resource_group.resource_group_id
-  cpd_admin_password  = var.cpd_admin_password
-  cpd_entitlement_key = var.cpd_entitlement_key
+  source                    = "../.."
+  ibmcloud_api_key          = var.ibmcloud_api_key
+  prefix                    = var.prefix
+  region                    = var.region
+  cluster_name              = module.ocp_base.cluster_name
+  cluster_rg_id             = module.resource_group.resource_group_id
+  cloud_pak_deployer_image  = "quay.io/cloud-pak-deployer/cloud-pak-deployer"
+  cpd_admin_password        = var.cpd_admin_password
+  cpd_entitlement_key       = var.cpd_entitlement_key
+  install_odf_cluster_addon = true
 }
