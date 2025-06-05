@@ -1,0 +1,165 @@
+{
+  "products": [
+    {
+      "label": "Cloud automation for Cloud Pak for Data",
+      "name": "deploy-arch-ibm-cloudpak-data",
+      "product_kind": "solution",
+      "tags": [
+        "ibm_created",
+        "terraform",
+        "target_terraform",
+        "solution"
+      ],
+      "keywords": [
+        "IaC",
+        "infrastructure as code",
+        "terraform",
+        "solution"
+      ],
+      "provider_name": "IBM",
+      "short_description": "Deploys Cloud Pak for Data to a cluster",
+      "long_description": "Solution that deploys Cloud Pak for Data on an existing cluster.",
+      "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-cloudpak-data/blob/main/solutions/fully-configurable/README.md",
+      "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cloudpak-data/main/images/cp4d-icon.svg",
+      "flavors": [
+        {
+          "label": "Fully Configurable",
+          "name": "fully-configurable",
+          "working_directory": "solutions/fully-configurable",
+          "iam_permissions": [
+            {
+              "service_name": "containers-kubernetes",
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Viewer"
+              ]
+            }
+          ],
+          "architecture": {
+            "features": [
+              {
+                "title": "Works with any Openshift or k8s cluster",
+                "description": "No, must meet minimum requirements to install Cloud Pak for Data and Watson services you wish to add."
+              },
+              {
+                "title": "Deploys the Cloud Pak for Data on an existing cluster.",
+                "description": "Yes"
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-cloudpak-data/refs/heads/main/reference-architecture/deployable-architecture-cp4d.svg",
+                  "caption": "Cloud Pak for Data on a cluster",
+                  "type": "image/svg+xml"
+                },
+                "description": "Cloud Pak for Data deployed on a cluster."
+              }
+            ]
+          },
+          "configuration": [
+            {
+              "key": "ibmcloud_api_key",
+              "required": true
+            },
+            {
+              "key": "prefix",
+              "required": true
+            },
+            {
+              "key": "region",
+              "required": true
+            },
+            {
+              "key": "cluster_name",
+              "required": true
+            },
+            {
+              "key": "cluster_rg_id",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_id"
+                }
+              },
+              "required": true
+            },
+            {
+              "key": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_id"
+                }
+              },
+              "required": true
+            },
+            {
+              "key": "install_odf_cluster_addon",
+              "required": true
+            },
+            {
+              "key": "cpd_entitlement_key",
+              "required": true
+            },
+            {
+              "key": "watsonx_ai_install",
+              "required": true
+            },
+            {
+              "key": "watsonx_ai_models",
+              "required": true
+            },
+            {
+              "key": "watsonx_data_install",
+              "required": true
+            },
+            {
+              "key": "watson_discovery_install",
+              "required": true
+            },
+            {
+              "key": "watson_assistant_install",
+              "required": true
+            },
+            {
+              "key": "code_engine_project_name"
+            },
+            {
+              "key": "code_engine_project_id"
+            },
+            {
+              "key": "cloud_pak_deployer_image"
+            },
+            {
+              "key": "cloud_pak_deployer_release"
+            },
+            {
+              "key": "cloud_pak_deployer_secret"
+            },
+            {
+              "key": "odf_version"
+            },
+            {
+              "key": "odf_config"
+            },
+            {
+              "key": "cpd_accept_license"
+            },
+            {
+              "key": "cpd_admin_password"
+            },
+            {
+              "key": "cpd_version"
+            }
+          ],
+          "install_type": "fullstack"
+        }
+      ]
+    }
+  ]
+}

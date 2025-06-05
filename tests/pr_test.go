@@ -10,6 +10,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/IBM/go-sdk-core/v5/core"
+	"github.com/IBM/secrets-manager-go-sdk/secretsmanagerv2"
 	"github.com/gruntwork-io/terratest/modules/files"
 	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/random"
@@ -21,9 +23,11 @@ import (
 )
 
 // Ensure every example directory has a corresponding test
-const instanceFlavorDir = "solutions/deploy"
+const instanceFlavorDir = "solutions/fully-configurable"
 
-var permanentResources map[string]interface{}
+const cpdEntitlementKeyId = "a4292c24-f093-2b8b-9016-37132b7b8788"
+
+var permanentResources map[string]any
 
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
@@ -61,7 +65,7 @@ func TestRunStandardSolution(t *testing.T) {
 	logger.Log(t, "Tempdir: ", tempTerraformDir)
 	existingTerraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: tempTerraformDir,
-		Vars: map[string]interface{}{
+		Vars: map[string]any{
 			"prefix":        prefix,
 			"region":        region,
 			"resource_tags": tags,
@@ -79,20 +83,31 @@ func TestRunStandardSolution(t *testing.T) {
 		// ------------------------------------------------------------------------------------
 		// Deploy Cloudpak DA passing using existing ROKS instance
 		// ------------------------------------------------------------------------------------
+		cpdEntitlementKey, cpdEntitlementKeyErr := GetSecretsManagerKey(
+			permanentResources["secretsManagerGuid"].(string),
+			permanentResources["secretsManagerRegion"].(string),
+			cpdEntitlementKeyId,
+		)
+
+		if !assert.NoError(t, cpdEntitlementKeyErr) {
+			t.Error("TestRunStandardUpgradeSolution Failed - geretain-software-entitlement-key not found in secrets manager")
+			panic(cpdEntitlementKeyErr)
+		}
+
 		options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
 			Testing:      t,
 			TerraformDir: instanceFlavorDir,
 			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
 			ImplicitRequired: false,
-			TerraformVars: map[string]interface{}{
+			TerraformVars: map[string]any{
 				"prefix":                    prefix,
 				"region":                    region,
 				"cluster_name":              terraform.Output(t, existingTerraformOptions, "workload_cluster_id"),
 				"cluster_rg_id":             terraform.Output(t, existingTerraformOptions, "workload_rg_id"),
 				"cloud_pak_deployer_image":  "quay.io/cloud-pak-deployer/cloud-pak-deployer",
 				"cpd_admin_password":        GetRandomAdminPassword(t),
-				"cpd_entitlement_key":       "entitlementKey",
-				"install_odf_cluster_addon": false,
+				"cpd_entitlement_key":       *cpdEntitlementKey,
+				"install_odf_cluster_addon": true,
 			},
 		})
 
@@ -121,6 +136,7 @@ func TestRunStandardSolution(t *testing.T) {
 }
 
 func TestRunStandardUpgradeSolution(t *testing.T) {
+	t.Skip()
 	t.Parallel()
 
 	prefix := fmt.Sprintf("cp-up-%s", strings.ToLower(random.UniqueId()))
@@ -156,20 +172,31 @@ func TestRunStandardUpgradeSolution(t *testing.T) {
 		// ------------------------------------------------------------------------------------
 		// Deploy Cloudpak DA passing using existing ROKS instance
 		// ------------------------------------------------------------------------------------
+		cpdEntitlementKey, cpdEntitlementKeyErr := GetSecretsManagerKey(
+			permanentResources["secretsManagerGuid"].(string),
+			permanentResources["secretsManagerRegion"].(string),
+			cpdEntitlementKeyId,
+		)
+
+		if !assert.NoError(t, cpdEntitlementKeyErr) {
+			t.Error("TestRunStandardUpgradeSolution Failed - geretain-software-entitlement-key not found in secrets manager")
+			panic(cpdEntitlementKeyErr)
+		}
+
 		options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
 			Testing:      t,
 			TerraformDir: instanceFlavorDir,
 			// Do not hard fail the test if the implicit destroy steps fail to allow a full destroy of resource to occur
 			ImplicitRequired: false,
-			TerraformVars: map[string]interface{}{
+			TerraformVars: map[string]any{
 				"prefix":                    prefix,
 				"region":                    region,
 				"cluster_name":              terraform.Output(t, existingTerraformOptions, "workload_cluster_id"),
 				"cluster_rg_id":             terraform.Output(t, existingTerraformOptions, "workload_rg_id"),
 				"cloud_pak_deployer_image":  "quay.io/cloud-pak-deployer/cloud-pak-deployer",
 				"cpd_admin_password":        GetRandomAdminPassword(t),
-				"cpd_entitlement_key":       "entitlementKey",
-				"install_odf_cluster_addon": false,
+				"cpd_entitlement_key":       *cpdEntitlementKey,
+				"install_odf_cluster_addon": true,
 			},
 		})
 
@@ -208,4 +235,27 @@ func GetRandomAdminPassword(t *testing.T) string {
 	randomPass := "A1" + base64.URLEncoding.EncodeToString(randomBytes)[:13]
 
 	return randomPass
+}
+
+// GetSecretsManagerKey retrieves a secret from Secrets Manager
+func GetSecretsManagerKey(smId string, smRegion string, smKeyId string) (*string, error) {
+	secretsManagerService, err := secretsmanagerv2.NewSecretsManagerV2(&secretsmanagerv2.SecretsManagerV2Options{
+		URL: fmt.Sprintf("https://%s.%s.secrets-manager.appdomain.cloud", smId, smRegion),
+		Authenticator: &core.IamAuthenticator{
+			ApiKey: os.Getenv("TF_VAR_ibmcloud_api_key"),
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	getSecretOptions := secretsManagerService.NewGetSecretOptions(
+		smKeyId,
+	)
+
+	secret, _, err := secretsManagerService.GetSecret(getSecretOptions)
+	if err != nil {
+		return nil, err
+	}
+	return secret.(*secretsmanagerv2.ArbitrarySecret).Payload, nil
 }

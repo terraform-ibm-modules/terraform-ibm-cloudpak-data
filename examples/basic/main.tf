@@ -95,7 +95,7 @@ module "ocp_base" {
 ##############################################################################
 
 module "cloudpak_data" {
-  source                    = "../../solutions/deploy"
+  source                    = "../.."
   ibmcloud_api_key          = var.ibmcloud_api_key
   prefix                    = var.prefix
   region                    = var.region
