@@ -63,18 +63,15 @@
               "required": true
             },
             {
-              "key": "prefix"
+              "key": "prefix",
+              "required": true
             },
             {
-              "key": "region"
+              "key": "region",
+              "required": true
             },
             {
               "key": "cluster_name",
-              "custom_config": {
-                "type": "cluster_var",
-                "grouping": "deployment",
-                "original_grouping": "deployment"
-              },
               "required": true
             },
             {
@@ -98,7 +95,36 @@
                 "config_constraints": {
                   "identifier": "rg_id"
                 }
-              }
+              },
+              "required": true
+            },
+            {
+              "key": "install_odf_cluster_addon",
+              "required": true
+            },
+            {
+              "key": "cpd_entitlement_key",
+              "required": true
+            },
+            {
+              "key": "watsonx_ai_install",
+              "required": true
+            },
+            {
+              "key": "watsonx_ai_models",
+              "required": true
+            },
+            {
+              "key": "watsonx_data_install",
+              "required": true
+            },
+            {
+              "key": "watson_discovery_install",
+              "required": true
+            },
+            {
+              "key": "watson_assistant_install",
+              "required": true
             },
             {
               "key": "code_engine_project_name"
@@ -116,9 +142,6 @@
               "key": "cloud_pak_deployer_secret"
             },
             {
-              "key": "install_odf_cluster_addon"
-            },
-            {
               "key": "odf_version"
             },
             {
@@ -131,68 +154,10 @@
               "key": "cpd_admin_password"
             },
             {
-              "key": "cpd_entitlement_key"
-            },
-            {
               "key": "cpd_version"
-            },
-            {
-              "key": "watsonx_ai_install"
-            },
-            {
-              "key": "watsonx_ai_models"
-            },
-            {
-              "key": "watsonx_data_install"
-            },
-            {
-              "key": "watson_discovery_install"
-            },
-            {
-              "key": "watson_assistant_install"
             }
           ],
           "install_type": "fullstack"
-        }
-      ],
-      "dependency_version_2": true,
-      "dependencies": [
-        {
-          "flavors": [
-            "fully-configurable"
-          ],
-          "id": "65136ff0-51f7-4378-81d3-ade48e60339d-global",
-          "name": "deploy-arch-ibm-ocp-vpc",
-          "version": ">=v3.0.0",
-          "optional": true,
-          "default_flavor": "fully-configurable",
-          "input_mapping": [
-            {
-              "dependency_input": "prefix",
-              "version_input": "prefix",
-              "reference_version": true
-            },
-            {
-              "dependency_input": "cluster_name",
-              "version_input": "cluster_name",
-              "reference_version": true
-            },
-            {
-              "dependency_input": "resource_group_id",
-              "version_input": "resource_group",
-              "reference_version": true
-            },
-            {
-              "dependency_input": "region",
-              "version_input": "region",
-              "reference_version": true
-            },
-            {
-              "dependency_input": "resource_group_id",
-              "version_input": "resource_group",
-              "reference_version": true
-            }
-          ]
         }
       ]
     }
