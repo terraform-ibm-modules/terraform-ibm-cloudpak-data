@@ -85,7 +85,7 @@ module "cloudpak_data" {
   prefix                    = var.prefix
   region                    = var.region
   cluster_name              = module.ocp_base.cluster_name
-  cluster_rg_id             = module.resource_group.resource_group_id
+  cluster_rg_id             = module.ocp_base.resource_group_id
   cloud_pak_deployer_image  = "quay.io/cloud-pak-deployer/cloud-pak-deployer"
   cpd_admin_password        = var.cpd_admin_password
   cpd_entitlement_key       = var.cpd_entitlement_key

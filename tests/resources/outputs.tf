@@ -18,3 +18,13 @@ output "code_engine_project_name" {
   description = "The name of the code engine project that was created"
   value       = module.cloudpak_data.code_engine_project_name
 }
+
+output "workload_cluster_id" {
+  value       = module.ocp_base.cluster_id
+  description = "Cluster ID."
+}
+
+output "workload_rg_id" {
+  value       = module.ocp_base.resource_group_id
+  description = "Cluster resource group ID."
+}
