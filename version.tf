@@ -1,0 +1,17 @@
+terraform {
+  required_version = ">= 1.9.0"
+  required_providers {
+    ibm = {
+      source  = "ibm-cloud/ibm"
+      version = "1.78.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.8.0, <3.0.0"
+    }
+    shell = {
+      source  = "scottwinkler/shell"
+      version = "1.7.10"
+    }
+  }
+}

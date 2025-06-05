@@ -56,11 +56,12 @@ unless real values don't help users know what to change.
 
 ```hcl
 module "cloudpak_data" {
-  source                      = "../../solutions/fully-configurable"
+  source                      = "../.."
   ibmcloud_api_key            = "xXXxxxxXXXxxxx"  # pragma: allowlist secret
   prefix                      = "cp4d"
   region                      = "us-south"
   cluster_name                = "cluster1"
+  cluster_rg_id               = "rg-cluster-1"
   cpd_admin_password          = "xXXxxxxXXXxxxx"  # pragma: allowlist secret
   cpd_entitlement_key         = "xXXxxxxXXXxxxx"  # pragma: allowlist secret
 }
@@ -111,20 +112,14 @@ You need the following permissions to run this module:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_build_cpd_image"></a> [build\_cpd\_image](#module\_build\_cpd\_image) | ./cpd-image-build | n/a |
-| <a name="module_cloud_pak_deployer"></a> [cloud\_pak\_deployer](#module\_cloud\_pak\_deployer) | ./cloud-pak-deployer | n/a |
-| <a name="module_config"></a> [config](#module\_config) | ./cloud-pak-deployer/config | n/a |
-| <a name="module_watsonx_ai"></a> [watsonx\_ai](#module\_watsonx\_ai) | ./watsonx-ai | n/a |
-| <a name="module_watsonx_data"></a> [watsonx\_data](#module\_watsonx\_data) | ./watsonx-data | n/a |
+| <a name="module_cloudpak_data"></a> [cloudpak\_data](#module\_cloudpak\_data) | ../.. | n/a |
 
 ### Resources
 
 | Name | Type |
 |------|------|
-| [ibm_container_addons.odf_cluster_addon](https://registry.terraform.io/providers/ibm-cloud/ibm/1.78.0/docs/resources/container_addons) | resource |
 | [external_external.schematics](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 | [ibm_container_cluster_config.cluster_config](https://registry.terraform.io/providers/ibm-cloud/ibm/1.78.0/docs/data-sources/container_cluster_config) | data source |
-| [ibm_container_vpc_cluster.cluster_info](https://registry.terraform.io/providers/ibm-cloud/ibm/1.78.0/docs/data-sources/container_vpc_cluster) | data source |
 | [ibm_iam_auth_token.tokendata](https://registry.terraform.io/providers/ibm-cloud/ibm/1.78.0/docs/data-sources/iam_auth_token) | data source |
 
 ### Inputs
